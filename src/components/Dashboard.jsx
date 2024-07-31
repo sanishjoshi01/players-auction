@@ -2,16 +2,32 @@ import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import { useMediaQuery } from "@mui/material";
 
 // import { fetchDashboardData } from "../api/mockAPI";
 // import Loading from "./Loading";
 import SideBar from "./SideBar";
-import AppBars from "./AppBars";
+// import AppBars from "./AppBars";
 
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+const defaultTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#1b1d2c",
+      light: "#8c97ad",
+      dark: "#000",
+      // contrastText:
+    },
+    secondary: {
+      main: "#8c97ad",
+    },
+    hover: {
+      main: "#1da6ee",
+    },
+  },
+});
+console.log(defaultTheme);
 
 export default function Dashboard({ children }) {
   const [open, setOpen] = React.useState(true);
@@ -47,21 +63,25 @@ export default function Dashboard({ children }) {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBars open={open} toggleDrawer={toggleDrawer} />
+        {/* TODO - APP BAR  */}
+        {/* <AppBars open={open} toggleDrawer={toggleDrawer} /> */}
         <SideBar open={open} toggleDrawer={toggleDrawer} />
         <Box
           component="main"
           sx={{
+            color: (theme) =>
+              theme.palette.mode === "dark"
+                ? theme.palette.primary.light
+                : theme.palette.primary.dark,
             backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
+              theme.palette.mode === "dark"
+                ? theme.palette.primary.dark
+                : theme.palette.primary.light,
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
           }}
         >
-          <Toolbar />
           {children}
         </Box>
       </Box>

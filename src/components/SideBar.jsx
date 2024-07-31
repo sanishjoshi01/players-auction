@@ -5,7 +5,12 @@ import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { mainListItems } from "./listItems";
+import MainListItems from "./MainListItems";
+import { ListItemText } from "@mui/material";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import logo from "../assets/logo.svg";
+import SecondaryListItems from "./SecondaryListItems";
 
 const drawerWidth = 240;
 
@@ -17,6 +22,8 @@ function SideBar({ open, toggleDrawer }) {
       position: "relative",
       whiteSpace: "nowrap",
       width: drawerWidth,
+      color: theme.palette.primary.light,
+      background: theme.palette.primary.main,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.easeInOut,
         duration: theme.transitions.duration.enteringScreen,
@@ -42,18 +49,26 @@ function SideBar({ open, toggleDrawer }) {
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
             px: [1],
+            py: [2],
           }}
         >
+          <ListItemButton>
+            <ListItemIcon>
+              <img src={logo} />
+            </ListItemIcon>
+            <ListItemText primary="Players Auction" secondary="Trade games" />
+          </ListItemButton>
           <IconButton onClick={() => toggleDrawer()}>
-            <ChevronLeftIcon />
+            <ChevronLeftIcon color="secondary" />
           </IconButton>
         </Toolbar>
         <Divider />
         <List component="nav">
-          {mainListItems}
-          <Divider sx={{ my: 1 }} />
+          <MainListItems />
+          <Divider sx={{ mt: 10 }} />
+          <SecondaryListItems />
         </List>
       </Drawer>
     </>
