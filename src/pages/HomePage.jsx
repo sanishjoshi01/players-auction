@@ -1,22 +1,19 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+// import Box from "@mui/material/Box";
+// import InputLabel from "@mui/material/InputLabel";
+// import MenuItem from "@mui/material/MenuItem";
+// import FormControl from "@mui/material/FormControl";
+// import Select from "@mui/material/Select";
 import InputBase from "@mui/material/InputBase";
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
+import InsertLinkRoundedIcon from "@mui/icons-material/InsertLinkRounded";
+import Button from "@mui/material/Button";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import CustomDropdown from "../components/CustomDropdown";
+import Table from "../components/Table";
 
 function HomePage() {
-  //ALL GAMES DROPDOWN
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
   //SEARCH
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -40,7 +37,6 @@ function HomePage() {
     padding: theme.spacing(0, 2),
     height: "100%",
     position: "absolute",
-    top: 0,
     right: 0,
     pointerEvents: "none",
     display: "flex",
@@ -53,7 +49,7 @@ function HomePage() {
     "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(1)})`,
+      paddingRight: `calc(1em + ${theme.spacing(4)})`,
       transition: theme.transitions.create("width"),
       width: "100%",
       [theme.breakpoints.up("md")]: {
@@ -62,48 +58,95 @@ function HomePage() {
     },
   }));
 
+  const CustomButton = styled(Button)(({ theme }) => ({
+    borderRadius: "200px",
+    fontSize: "1.2rem",
+    opacity: 0.8,
+    color: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  }));
+
   return (
-    <div className="bg-[#1b1d2c] my-6 mx-4 rounded-[26px] text-[#8c97ad] flex gap-1">
-      <Box sx={{ minWidth: 250 }}>
-        <FormControl fullWidth>
-          <InputLabel>
-            <div className="flex items-center gap-2">
-              <GridViewRoundedIcon />
-              View All Games
-            </div>
-          </InputLabel>
-          <Select
-            sx={{
-              boxShadow: "none",
-              ".MuiOutlinedInput-notchedOutline": { border: 0 },
-              "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                {
-                  border: 0,
-                },
-              "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  border: 0,
-                },
-            }}
-            value={age}
-            onChange={handleChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      <Search>
-        <StyledInputBase
-          placeholder="Find your games..."
-          inputProps={{ "aria-label": "search" }}
+    <>
+      <div className="bg-[#1b1d2c] rounded-[26px] text-[#8c97ad] flex gap-1">
+        <CustomDropdown
+          width={250}
+          icon={<GridViewRoundedIcon />}
+          label="View All Games"
+          sx={{
+            boxShadow: "none",
+            ".MuiOutlinedInput-notchedOutline": { border: 0 },
+            "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+              border: 0,
+            },
+            "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+              {
+                border: 0,
+              },
+          }}
         />
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-      </Search>
-    </div>
+        <Search>
+          <StyledInputBase
+            placeholder="Find your games..."
+            inputProps={{ "aria-label": "search" }}
+          />
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+        </Search>
+      </div>
+      <div className="relative mt-4 w-full">
+        {/* Overlay effect with background image  */}
+        <div className="p-6 bg-[url('/src/assets/banner.jpg')] bg-cover bg-center rounded-[26px] h-72 opacity-70" />
+        <div className="flex items-center justify-between absolute top-0 h-full w-full p-6">
+          <div className="w-80 text-white h-full flex flex-col justify-between items-center">
+            <div className="lg:text-[2rem] font-bold uppercase">
+              Leading Marketplace For{" "}
+              <InsertLinkRoundedIcon className="-rotate-45" /> Gamers
+            </div>
+
+            <CustomButton
+              className="h-full w-full border rounded-full"
+              endIcon={<ArrowForwardIosIcon />}
+            >
+              Start Trading
+            </CustomButton>
+          </div>
+          <div className="w-80 text-white h-full">
+            Instant real time order notifications
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 w-full h-full bg-[#1b1d2c] rounded-[26px] text-[#8c97ad] p-4">
+        <div className="flex justify-between">
+          <h1 className="uppercase text-white font-bold">
+            Top selling Gamer Marketplaces
+          </h1>
+          <button className="uppercase text-[#1da6ee]">View All</button>
+        </div>
+        <div className="mt-4 flex items-center justify-between">
+          <div>
+            <CustomDropdown width={250} label="Select Server" />
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              Quantity:
+              <CustomDropdown width={100} label="100 M" />
+            </div>
+            <div className="flex items-center gap-1">
+              Sort by:
+              <CustomDropdown width={100} label="Rating" />
+            </div>
+          </div>
+        </div>{" "}
+        <div className="mt-4">
+          <Table />
+        </div>
+      </div>
+    </>
   );
 }
 

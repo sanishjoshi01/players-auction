@@ -3,7 +3,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
-
 // import { fetchDashboardData } from "../api/mockAPI";
 // import Loading from "./Loading";
 import SideBar from "./SideBar";
@@ -17,13 +16,17 @@ const defaultTheme = createTheme({
       main: "#1b1d2c",
       light: "#8c97ad",
       dark: "#000",
-      // contrastText:
+      contrastText: (1, 1, 1, 0.5),
     },
     secondary: {
       main: "#8c97ad",
     },
     hover: {
       main: "#1da6ee",
+    },
+    progress: {
+      primary: "#8d35d4",
+      secondary: "#ec6609",
     },
   },
 });
@@ -82,7 +85,8 @@ export default function Dashboard({ children }) {
             overflow: "auto",
           }}
         >
-          {children}
+          {/* margins for all the childrens  */}
+          <div className="mx-4 my-6">{children}</div>
         </Box>
       </Box>
     </ThemeProvider>

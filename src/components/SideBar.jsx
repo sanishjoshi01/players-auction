@@ -67,7 +67,7 @@ function SideBar({ open, toggleDrawer }) {
         <Divider />
         <List component="nav">
           <MainListItems />
-          <Divider sx={{ mt: 10 }} />
+          <Divider sx={{ mt: 10, border: "none" }} />
           <SecondaryListItems />
         </List>
       </Drawer>

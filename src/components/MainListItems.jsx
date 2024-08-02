@@ -1,7 +1,4 @@
 import * as React from "react";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 // import ListSubheader from "@mui/material/ListSubheader";
 // import DashboardIcon from "@mui/icons-material/Dashboard";
 import CurrencyBitcoinRoundedIcon from "@mui/icons-material/CurrencyBitcoinRounded";
@@ -13,14 +10,85 @@ import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 
-import { Link } from "react-router-dom";
+import LinkListItem from "./LinkListItem";
 
 const MainListItems = () => {
   const currentWindow = window.location.pathname;
 
+  //list of links of sidebar
+  const linkList = [
+    {
+      label: "Home",
+      path: "/dashboard",
+      icon: (
+        <HomeRoundedIcon
+          color={currentWindow === "/dashboard" ? "hover" : "secondary"}
+        />
+      ),
+    },
+    {
+      label: "Currency",
+      path: "/currency",
+      icon: (
+        <CurrencyBitcoinRoundedIcon
+          color={currentWindow === "/currency" ? "hover" : "secondary"}
+        />
+      ),
+    },
+    {
+      label: "Items & Skins",
+      path: "/items-and-skins",
+      icon: (
+        <CategoryRoundedIcon
+          color={currentWindow === "/items-and-skins" ? "hover" : "secondary"}
+        />
+      ),
+    },
+    {
+      label: "Accounts",
+      path: "/accounts",
+      icon: (
+        <PeopleAltRoundedIcon
+          color={currentWindow === "/accounts" ? "hover" : "secondary"}
+        />
+      ),
+    },
+    {
+      label: "Power Leveling",
+      path: "/power-leveling",
+      icon: (
+        <OfflineBoltRoundedIcon
+          color={currentWindow === "/power-leveling" ? "hover" : "secondary"}
+        />
+      ),
+    },
+    {
+      label: "View All Games",
+      path: "/games",
+      icon: (
+        <GridViewRoundedIcon
+          color={currentWindow === "/games" ? "hover" : "secondary"}
+        />
+      ),
+    },
+  ];
+
+  const renderedLists = linkList.map((data, index) => {
+    return (
+      <LinkListItem
+        key={index}
+        path={data.path}
+        currentWindow={currentWindow}
+        label={data.label}
+        icon={data.icon}
+      />
+    );
+  });
+
   return (
     <React.Fragment>
-      <Link to="/dashboard">
+      {renderedLists}
+      {/* <Link to="/dashboard">
         <ListItemButton>
           <ListItemIcon sx={{ gap: 0, padding: 0, margin: 0 }}>
             <HomeRoundedIcon
@@ -111,7 +179,7 @@ const MainListItems = () => {
             className={currentWindow === "/games" && "text-[#1da6ee]"}
           />
         </ListItemButton>
-      </Link>
+      </Link> */}
     </React.Fragment>
   );
 };
