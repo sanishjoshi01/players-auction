@@ -3,13 +3,13 @@ import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import avatarImg from "../assets/avatar.png";
 
-function AvatarIcon({ badge, size }) {
+function AvatarIcon({ badge, size, image }) {
   if (!badge) {
     return (
       <Avatar
         className="cursor-pointer"
         alt="avatar"
-        src={avatarImg}
+        src={image || avatarImg}
         sx={{ width: size, height: size }}
       />
     );
@@ -30,7 +30,7 @@ function AvatarIcon({ badge, size }) {
         <Avatar
           className="cursor-pointer"
           alt="avatar"
-          src={avatarImg}
+          src={image || avatarImg}
           sx={{ width: size, height: size }}
         />
       </Badge>

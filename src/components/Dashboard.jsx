@@ -86,7 +86,9 @@ export default function Dashboard({ children }) {
           }}
         >
           {/* margins for all the childrens  */}
-          <div className="mx-4 my-6">{children}</div>
+          <div className="px-4 py-6 bg-gradient-to-b from-[#422a4c] from-10% via-[#162045] via-[40%] to-[#0b1023] to-[90%]">
+            {children}
+          </div>
         </Box>
       </Box>
     </ThemeProvider>

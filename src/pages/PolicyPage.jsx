@@ -1,4 +1,4 @@
 function PolicyPage() {
-  return <div>PolicyPage</div>;
+  return <div>Legal Page</div>;
 }
 export default PolicyPage;
