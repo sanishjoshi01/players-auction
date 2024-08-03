@@ -39,9 +39,11 @@ function FeatureCard() {
   return (
     <div className="w-36 flex flex-col items-center gap-4 backdrop-blur-sm bg-black/40 p-4 rounded-3xl">
       <AvatarIcon size="64px" image={featuresData[index].image} />
-      <p className="text-white flex items-center justify-center text-center h-20">
-        {featuresData[index].feature}
-      </p>
+      <div className="text-white flex items-center justify-center text-center h-20">
+        <p className="line-clamp-3 select-none">
+          {featuresData[index].feature}
+        </p>
+      </div>
       <div className="flex items-center justify-around w-full">
         {renderedDotBtns}
       </div>

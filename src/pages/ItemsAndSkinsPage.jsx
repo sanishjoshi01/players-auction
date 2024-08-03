@@ -40,12 +40,10 @@ function ItemsAndSkinsPage() {
   return (
     <div className="flex gap-3 w-full">
       {/* MAIN CONTENT  */}
-      <div className="w-[80%] rounded-3xl	bg-cyan-500">
-        <div className="h-[50vh] bg-green-500"></div>
-      </div>
+      <div className="w-[80%] flex gap-6 bg-cyan-500"></div>
 
       {/* RIGHT SIDEBAR  */}
-      <div className="bg-[#1b1d2c] w-[20%] rounded-3xl p-2 grid gap-4 h-fit">
+      <div className="bg-[#1b1d2c] w-[20%] rounded-3xl p-2 flex flex-col gap-4 h-fit">
         {/* Profile Panel */}
         <ProfilePanel />
 
@@ -79,11 +77,11 @@ function ItemsAndSkinsPage() {
         </div>
 
         {/* Guides & Tips Player Panel */}
-        <div className="rounded-2xl flex flex-col gap-1">
-          <div className="text-sm flex items-center gap-2  mb-1 text-white">
+        <div className="rounded-2xl flex flex-col gap-2">
+          <div className="text-sm flex items-center mb-1 text-white">
             Guides & Tips Player
           </div>
-          {renderedGuides}
+          <div>{renderedGuides}</div>
         </div>
       </div>
     </div>
