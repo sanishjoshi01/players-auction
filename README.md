@@ -12,11 +12,11 @@ Go inside the folder and open terminal
 
 ### `2. Clone repository`
 
-`git clone https://github.com/sanishjoshi01/techjar-dashboard.git`
+`git clone https://github.com/sanishjoshi01/players-auction.git`
 
 ### `3. Installing Dependencies`
 
-`cd techjar-dashboard`
+`cd players-auction`
 
 `npm install`
 
