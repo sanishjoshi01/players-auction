@@ -1,10 +1,8 @@
-import ProfilePanel from "../components/ProfilePanel";
-
 function AccountsPage() {
   return (
-    <div>
-      <ProfilePanel />
-    </div>
+    <p className="h-[100vh] w-full grid place-items-center ">
+      Nothing to show here yet!!!
+    </p>
   );
 }
 export default AccountsPage;

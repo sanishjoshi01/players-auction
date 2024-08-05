@@ -27,7 +27,7 @@ export default function SignIn() {
 
   const navigate = useNavigate();
 
-  const { login } = useAuth();
+  const { login, user } = useAuth();
 
   const handleChangeEmail = (e) => {
     dispatch(changeEmail(e.target.value));
@@ -55,13 +55,17 @@ export default function SignIn() {
         );
 
         //navigate to dashboard
-        navigate("/dashboard");
+        navigate("/home");
       }
     } catch (error) {
       console.log(error.message);
       toast.error(error.message);
     }
   };
+
+  if (user) {
+    navigate("/home");
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>

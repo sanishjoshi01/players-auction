@@ -1,12 +1,7 @@
-// export const secondaryListItems = (
-
-// );
-
 import * as React from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-// import DashboardIcon from "@mui/icons-material/Dashboard";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import PolicyRoundedIcon from "@mui/icons-material/PolicyRounded";
@@ -27,7 +22,7 @@ const SecondaryListItems = () => {
           </ListItemIcon>
           <ListItemText
             primary="About"
-            className={currentWindow === "/about" && "text-[#1da6ee]"}
+            className={currentWindow === "/about" ? "text-[#1da6ee]" : " "}
           />
         </ListItemButton>
       </Link>
@@ -41,7 +36,7 @@ const SecondaryListItems = () => {
           </ListItemIcon>
           <ListItemText
             primary="Support"
-            className={currentWindow === "/support" && "text-[#1da6ee]"}
+            className={currentWindow === "/support" ? "text-[#1da6ee]" : " "}
           />
         </ListItemButton>
       </Link>
@@ -55,7 +50,7 @@ const SecondaryListItems = () => {
           </ListItemIcon>
           <ListItemText
             primary="Legal"
-            className={currentWindow === "/policy" && "text-[#1da6ee]"}
+            className={currentWindow === "/policy" ? "text-[#1da6ee]" : " "}
           />
         </ListItemButton>
       </Link>

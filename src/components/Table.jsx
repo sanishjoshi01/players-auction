@@ -7,20 +7,24 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import QuantityInput from "./QuantityInput";
+import { fetchTableData } from "../api/mockAPI";
+import Loader from "./Loader";
 
 const columns = [
-  { id: "server", label: "Server", minWidth: 100 },
-  { id: "rating", label: "Rating", minWidth: 170 },
+  {
+    id: "item",
+    label: "Item",
+    minWidth: 200,
+  },
   {
     id: "delivery",
     label: "Delivery",
-    minWidth: 100,
+    minWidth: 50,
   },
   {
     id: "quantity",
     label: "Quantity",
-    minWidth: 170,
+    minWidth: 100,
     align: "center",
   },
   {
@@ -31,27 +35,22 @@ const columns = [
   },
 ];
 
-function createData(server, rating, delivery, quantity, price) {
-  // const density = delivery / size;
-  return { server, rating, delivery, quantity, price };
-}
-
-const rows = [
-  createData("India", "IN", 1324171354, <QuantityInput />, 49.99),
-  createData("China", "CN", 1403500365, <QuantityInput />, 49.99),
-  createData("Italy", "IT", 60483973, <QuantityInput />, 49.99),
-  createData("United States", "US", 327167434, <QuantityInput />, 49.99),
-  createData("Canada", "CA", 37602103, <QuantityInput />, 49.99),
-  createData("Australia", "AU", 25475400, <QuantityInput />, 49.99),
-  createData("India", "IN", 1324171354, <QuantityInput />, 49.99),
-  createData("China", "CN", 1403500365, <QuantityInput />, 49.99),
-  createData("Italy", "IT", 60483973, <QuantityInput />, 49.99),
-  createData("United States", "US", 327167434, <QuantityInput />, 49.99),
-  createData("Canada", "CA", 37602103, <QuantityInput />, 49.99),
-  createData("Australia", "AU", 25475400, <QuantityInput />, 49.99),
-];
-
 export default function StickyHeadTable() {
+  const [tableData, setTableData] = React.useState(null);
+  const [loadingTableData, setLoadingTableData] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchTableData();
+      setTableData(response);
+      setLoadingTableData(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const rows = tableData;
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -63,6 +62,10 @@ export default function StickyHeadTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  if (loadingTableData) {
+    return <Loader className="h-[40vh]" size="w-12 h-12" />;
+  }
 
   return (
     <Paper
@@ -84,7 +87,7 @@ export default function StickyHeadTable() {
                     minWidth: column.minWidth,
                     borderTop: "1px solid rgba(255,255,255,0.3)",
                     borderBottom: "none",
-                    backgroundColor: "#10152b",
+                    backgroundColor: "#111327",
                   }}
                 >
                   {column.label}
@@ -95,16 +98,19 @@ export default function StickyHeadTable() {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, index) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
                         <TableCell
                           key={column.id}
                           align={column.align}
-                          sx={{ border: "none" }}
+                          sx={{
+                            border: "none",
+                            backgroundColor: "#151a2d",
+                          }}
                         >
                           {column.format && typeof value === "number"
                             ? column.format(value)
@@ -119,6 +125,9 @@ export default function StickyHeadTable() {
         </Table>
       </TableContainer>
       <TablePagination
+        sx={{
+          backgroundColor: "#111327",
+        }}
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}

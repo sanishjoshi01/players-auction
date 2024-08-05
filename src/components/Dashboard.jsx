@@ -3,12 +3,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
-// import { fetchDashboardData } from "../api/mockAPI";
-// import Loading from "./Loading";
 import SideBar from "./SideBar";
-// import AppBars from "./AppBars";
+import { fetchLoadingAnimation } from "../api/mockAPI";
+import Loader from "../components/Loader";
+import Header from "../components/Header";
+import MenuBar from "./MenuBar";
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme({
   palette: {
     mode: "dark",
@@ -30,45 +30,46 @@ const defaultTheme = createTheme({
     },
   },
 });
-console.log(defaultTheme);
 
 export default function Dashboard({ children }) {
-  const [open, setOpen] = React.useState(true);
+  // USESTATE FOR FIRST LOADING ANIMATION (3 SECONDS)
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const isLargeScreen = useMediaQuery(defaultTheme.breakpoints.down("lg"));
   const isSmallScreen = useMediaQuery(defaultTheme.breakpoints.down("sm"));
 
-  // const [loading, setLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    if (isSmallScreen) {
-      setOpen(false);
-    } else {
-      setOpen(true);
-    }
-  }, [isSmallScreen]);
+    const firstLoadingAnimation = async () => {
+      await fetchLoadingAnimation();
+      setIsLoading(false);
+    };
+    firstLoadingAnimation();
+  }, []);
 
-  //for full page loading
-  // React.useEffect(() => {
-  //   const fetchData = async () => {
-  //     await fetchDashboardData();
-  //     setLoading(false);
-  //   };
-  //   fetchData();
-  // }, []);
-
-  // if (loading) {
-  //   return <Loading className="fixed inset-0" />;
-  // }
+  if (isLoading) {
+    return <Loader className="fixed inset-0" />;
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      {isSmallScreen && <Header />}
+      {isSmallScreen && <MenuBar />}
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        {/* TODO - APP BAR  */}
-        {/* <AppBars open={open} toggleDrawer={toggleDrawer} /> */}
-        <SideBar open={open} toggleDrawer={toggleDrawer} />
+
+        {!isSmallScreen && (
+          <SideBar
+            theme={defaultTheme}
+            open={open}
+            onOpen={setOpen}
+            toggleDrawer={toggleDrawer}
+            isLargeScreen={isLargeScreen}
+          />
+        )}
         <Box
           component="main"
           sx={{
@@ -83,12 +84,10 @@ export default function Dashboard({ children }) {
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
+            ml: isSmallScreen ? "" : isLargeScreen ? "70px" : "",
           }}
         >
-          {/* margins for all the childrens  */}
-          <div className="px-4 py-6 bg-gradient-to-b from-[#422a4c] from-10% via-[#162045] via-[40%] to-[#0b1023] to-[90%]">
-            {children}
-          </div>
+          {children}
         </Box>
       </Box>
     </ThemeProvider>

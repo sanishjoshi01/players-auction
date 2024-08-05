@@ -7,6 +7,9 @@ import LinearProgress, {
 } from "@mui/material/LinearProgress";
 import { styled } from "@mui/material/styles";
 import AvatarIcon from "../components/AvatarIcon";
+import { useTheme, useMediaQuery } from "@mui/material";
+import { useAuth } from "../context/useAuth";
+import LoginButton from "./LoginButton";
 
 function ProfilePanel() {
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -18,44 +21,55 @@ function ProfilePanel() {
       backgroundColor: theme.palette.progress.primary,
     },
   }));
+  const theme = useTheme();
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const { user } = useAuth();
+
+  if (!user) {
+    return <LoginButton />;
+  }
 
   return (
-    <div className="flex flex-col gap-4 p-4 rounded-2xl h-fit bg-gradient-to-br from-[#a1708a] via-[#0c0f20] to-[#0c0f20] bg-red-500">
-      {/* Profile and other icons ROW */}
-      <div className="flex items-center justify-between gap-2">
-        <AvatarIcon badge={true} />
-        <div className="text-white flex justify-between gap-4">
-          <LocalOfferRoundedIcon className="bg-cyan-500 p-1 rounded-md cursor-pointer" />
-          <NotificationsRoundedIcon className="bg-gray-600 p-1 rounded-md cursor-pointer" />
-          <EmailRoundedIcon className="bg-gray-600 p-1 rounded-md cursor-pointer" />
-          <SettingsRoundedIcon className="bg-gray-600 p-1 rounded-md cursor-pointer" />
+    !isSmallScreen && (
+      <div className="flex flex-col gap-4 p-2 rounded-2xl bg-gradient-to-br from-[#a1708a] via-[#0c0f20] to-[#0c0f20]">
+        {/* Profile and other icons ROW */}
+        <div className="flex items-center justify-between gap-2">
+          <AvatarIcon badge={true} />
+          <div className="text-white flex justify-between gap-2">
+            <LocalOfferRoundedIcon className="bg-cyan-500 p-1 rounded-md cursor-pointer" />
+            <NotificationsRoundedIcon className="bg-gray-600 p-1 rounded-md cursor-pointer" />
+            <EmailRoundedIcon className="bg-gray-600 p-1 rounded-md cursor-pointer" />
+            <SettingsRoundedIcon className="bg-gray-600 p-1 rounded-md cursor-pointer" />
+          </div>
         </div>
-      </div>
 
-      {/* Progress Level ROW */}
-      <div className="flex items-center">
-        {/* <!-- Starting Circle --> */}
-        <div className="w-6 h-6 bg-[#8d35d4] text-white flex items-center justify-center rounded-full text-sm rounded-tr-lg rotate-45">
-          <div className="-rotate-45">3</div>
+        {/* Progress Level ROW */}
+        <div className="flex items-center">
+          {/* <!-- Starting Circle --> */}
+          <div className="w-6 h-6 bg-[#8d35d4] text-white flex items-center justify-center rounded-full text-sm rounded-tr-lg rotate-45">
+            <div className="-rotate-45">3</div>
+          </div>
+          {/* <!-- Progress Bar --> */}
+          <BorderLinearProgress
+            variant="determinate"
+            value={70}
+            className="flex-grow"
+          />
+          {/* <!-- Ending Circle --> */}
+          <div className="w-6 h-6 bg-[#ec6609] text-white flex items-center justify-center rounded-full text-sm rounded-tl-lg -rotate-45">
+            <div className="rotate-45">4</div>
+          </div>
         </div>
-        {/* <!-- Progress Bar --> */}
-        <BorderLinearProgress
-          variant="determinate"
-          value={70}
-          className="flex-grow"
-        />
-        {/* <!-- Ending Circle --> */}
-        <div className="w-6 h-6 bg-[#ec6609] text-white flex items-center justify-center rounded-full text-sm rounded-tl-lg -rotate-45">
-          <div className="rotate-45">4</div>
-        </div>
-      </div>
 
-      {/* Sub progress ROW */}
-      <div className="flex items-center justify-between text-xs">
-        <p>Order: 323</p>
-        <p>Need: 24</p>
+        {/* Sub progress ROW */}
+        <div className="flex items-center justify-between text-xs">
+          <p>Order: 323</p>
+          <p>Need: 24</p>
+        </div>
       </div>
-    </div>
+    )
   );
 }
 

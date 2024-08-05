@@ -13,9 +13,15 @@ function CustomDropdown({ width, icon, label, sx }) {
     setValue(event.target.value);
   };
   return (
-    <Box sx={{ minWidth: { width } }}>
+    <Box sx={{ width: { width } }}>
       <FormControl fullWidth>
-        <InputLabel>
+        <InputLabel
+          sx={{
+            "&.Mui-focused": {
+              color: "white",
+            },
+          }}
+        >
           <div className="flex items-center gap-2">
             {icon}
             {label}

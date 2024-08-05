@@ -17,15 +17,28 @@ import ViewAllGamesPage from "./pages/ViewAllGamesPage";
 import AboutPage from "./pages/AboutPage";
 import SupportPage from "./pages/SupportPage";
 import PolicyPage from "./pages/PolicyPage";
+import { useAuth } from "./context/useAuth";
+import LoginButton from "./components/LoginButton";
 
 function App() {
+  const { user } = useAuth();
+
+  const message = (
+    <div className="h-[100vh] w-full grid place-items-center">
+      <div className="flex flex-col gap-2">
+        <p>You need to be logged in to view this page</p>
+        <LoginButton />
+      </div>
+    </div>
+  );
+
   return (
     <Router>
       <ToastContainer />
       <Routes>
         <Route path="/login" element={<SignIn />} />
         <Route
-          path="/dashboard"
+          path="/home"
           element={
             <Dashboard>
               <HomePage />
@@ -35,46 +48,30 @@ function App() {
 
         <Route
           path="/currency"
-          element={
-            <Dashboard>
-              <CurrencyPage />
-            </Dashboard>
-          }
+          element={<Dashboard>{!user ? message : <CurrencyPage />}</Dashboard>}
         />
 
         <Route
           path="/items-and-skins"
           element={
-            <Dashboard>
-              <ItemsAndSkinsPage />
-            </Dashboard>
+            <Dashboard>{!user ? message : <ItemsAndSkinsPage />}</Dashboard>
           }
         />
 
         <Route
           path="/accounts"
-          element={
-            <Dashboard>
-              <AccountsPage />
-            </Dashboard>
-          }
+          element={<Dashboard>{!user ? message : <AccountsPage />}</Dashboard>}
         />
 
         <Route
           path="/power-leveling"
-          element={
-            <Dashboard>
-              <PowerLeveling />
-            </Dashboard>
-          }
+          element={<Dashboard>{!user ? message : <PowerLeveling />}</Dashboard>}
         />
 
         <Route
           path="/games"
           element={
-            <Dashboard>
-              <ViewAllGamesPage />
-            </Dashboard>
+            <Dashboard>{!user ? message : <ViewAllGamesPage />}</Dashboard>
           }
         />
 
@@ -104,7 +101,7 @@ function App() {
             </Dashboard>
           }
         />
-        <Route path="/" element={<Navigate replace to="/login" />} />
+        <Route path="/" element={<Navigate replace to="/home" />} />
       </Routes>
     </Router>
   );

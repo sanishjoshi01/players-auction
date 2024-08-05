@@ -1,8 +1,4 @@
-// import Box from "@mui/material/Box";
-// import InputLabel from "@mui/material/InputLabel";
-// import MenuItem from "@mui/material/MenuItem";
-// import FormControl from "@mui/material/FormControl";
-// import Select from "@mui/material/Select";
+import * as React from "react";
 import InputBase from "@mui/material/InputBase";
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
@@ -15,9 +11,11 @@ import Table from "../components/Table";
 import FeatureCard from "../components/FeatureCard";
 import AvatarIcon from "../components/AvatarIcon";
 import ControllerImage from "../assets/controller.png";
-import CharacterImage from "../assets/character.png";
 import ProfilePanel from "../components/ProfilePanel";
 import GuidesPanel from "../components/GuidesPanel";
+import { Link } from "react-router-dom";
+import { fetchLatestGuideData } from "../api/mockAPI";
+import Skeleton from "../components/Skeleton";
 
 function HomePage() {
   //SEARCH
@@ -26,6 +24,7 @@ function HomePage() {
     display: "flex",
     flex: 1,
     overflowX: "hidden",
+    width: "100%",
     backgroundColor: "transparent",
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -34,7 +33,6 @@ function HomePage() {
       width: "auto",
     },
   }));
-
   const SearchIconWrapper = styled("div")(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: "100%",
@@ -45,7 +43,6 @@ function HomePage() {
     alignItems: "center",
     justifyContent: "center",
   }));
-
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: "inherit",
     flex: 1,
@@ -59,6 +56,7 @@ function HomePage() {
     },
   }));
 
+  // BUTTON
   const CustomButton = styled(Button)(() => ({
     borderRadius: "200px",
     fontSize: "1rem",
@@ -67,142 +65,123 @@ function HomePage() {
     color: "white",
   }));
 
-  const guidesData = [
-    {
-      category: "Skilling & leveling",
-      title: "OSRS Crafting Guide 1-99",
-      author: "Mina",
-      date: "Oct 3rd",
-    },
-    {
-      category: "Tips & Tricks",
-      title: "OSRS Crafting Guide 1-99",
-      author: "Dillan",
-      date: "Oct 2nd",
-    },
-    {
-      category: "Tips & Tricks",
-      title: "Monster Hunter Now Referral Codes Guide",
-      author: "Andrea",
-      date: "Sept 21st",
-    },
-    {
-      category: "Skilling & Leveling",
-      title: "OSRS Crafting Guide 1-99",
-      author: "Mina",
-      date: "Sept 26th",
-    },
-    {
-      category: "GTA V",
-      title: "Fans are now looking to the moon for the latest update",
-      author: "Andrea Tan",
-      date: "Sept 27th",
-    },
-    {
-      category: "FIFA",
-      title:
-        "EA delists FIFA titles from all digital storefronts excluding this",
-      author: "Mina",
-      date: "Sept 14th",
-    },
-  ];
+  // Latest Guides Data from mock API
+  const [latestGuidesData, setLatestGuidesData] = React.useState(null);
+  const [loadingLatestGuides, setLoadingLatestGuides] = React.useState(true);
 
-  const renderedGuides = guidesData.map((data, index) => {
-    return (
-      <GuidesPanel
-        key={index}
-        category={data.category}
-        title={data.title}
-        author={data.author}
-        date={data.date}
-      />
-    );
-  });
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchLatestGuideData();
+      setLatestGuidesData(response);
+      setLoadingLatestGuides(false);
+    };
+
+    fetchData();
+  }, []);
+
+  let renderedGuides;
+  if (loadingLatestGuides) {
+    renderedGuides = <Skeleton times={6} className="h-20 w-full" />;
+  } else {
+    renderedGuides = latestGuidesData.map((data, index) => {
+      return (
+        <GuidesPanel
+          key={index}
+          category={data.category}
+          title={data.title}
+          author={data.author}
+          date={data.date}
+        />
+      );
+    });
+  }
 
   return (
-    <div className="flex gap-3 w-full">
+    <div className="grid max-lg:grid-cols-1 lg:grid-cols-[11fr_1fr] bg-gradient-to-b from-[#422a4c] from-10% via-[#162045] via-[40%] to-[#0b1023] to-[90%]">
       {/* MAIN CONTENT  */}
-      <div className="w-[80%] flex flex-col gap-6">
+      <div className="mx-2 sm:mx-4 flex flex-col gap-6">
         {/* Category and search bar  */}
-        <div className="bg-[#1b1d2c] rounded-3xl text-[#8c97ad] flex">
-          <CustomDropdown
-            width={250}
-            icon={<GridViewRoundedIcon />}
-            label="View All Games"
-            sx={{
-              boxShadow: "none",
-              ".MuiOutlinedInput-notchedOutline": { border: 0 },
-              "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                {
-                  border: 0,
-                },
-              "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  border: 0,
-                },
-            }}
-          />
-          <Search>
-            <StyledInputBase
-              placeholder="Find your games..."
-              inputProps={{ "aria-label": "search" }}
+        <div className="bg-[#1b1d2c] rounded-3xl text-[#8c97ad] flex items-center justify-center gap-2 max-md:flex-wrap">
+          <div>
+            <CustomDropdown
+              width={250}
+              icon={<GridViewRoundedIcon />}
+              label="View All Games"
+              sx={{
+                boxShadow: "none",
+                ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                  {
+                    border: 0,
+                  },
+                "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                  {
+                    border: 0,
+                  },
+              }}
             />
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-          </Search>
+          </div>
+          <div className="w-full p-2">
+            <Search>
+              <StyledInputBase
+                placeholder="Find your games..."
+                inputProps={{ "aria-label": "search" }}
+              />
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+            </Search>
+          </div>
         </div>
 
         {/* banner image */}
-        <div className="relative w-full ">
+        <div className="w-full bg-[url('/src/assets/banner.png')]  bg-cover bg-top rounded-3xl">
           {/* Overlay effect with background image */}
-          <div className="bg-[url('/src/assets/banner.png')] bg-cover bg-top rounded-3xl h-72 opacity-80" />
-          {/* Content inside image */}
-          <div className="flex items-center justify-between absolute top-0 h-full w-full p-6">
-            <div className="w-72 text-white h-full flex flex-col justify-between items-start">
-              <div className="lg:text-[1.8rem] font-bold uppercase">
-                Leading Marketplace For {""}
+          <div className="flex items-center justify-between max-sm:justify-center max-sm:flex-wrap py-4 px-6 rounded-3xl gap-4">
+            {/* Main Text  */}
+            <div className="w-72 text-white flex flex-col gap-2 justify-between">
+              <p className="md:text-2xl lg:text-3xl font-bold uppercase">
+                Leading Marketplace For{" "}
                 <InsertLinkRoundedIcon
                   className="-rotate-45"
                   fontSize="large"
                 />{" "}
                 Gamers
-              </div>
+              </p>
 
-              <CustomButton
-                startIcon={<AvatarIcon size="60px" image={ControllerImage} />}
-                className="text-left backdrop-blur-sm w-full"
-                sx={{ backgroundColor: "rgb(0 0 0 / 0.3)" }}
-                endIcon={<ArrowForwardIosIcon />}
-              >
-                <p>Start Trading</p>
-              </CustomButton>
+              <Link to="/items-and-skins">
+                <CustomButton
+                  startIcon={<AvatarIcon size="60px" image={ControllerImage} />}
+                  className="text-left backdrop-blur-sm w-full"
+                  sx={{ backgroundColor: "rgb(0 0 0 / 0.3)" }}
+                  endIcon={<ArrowForwardIosIcon />}
+                >
+                  Start Trading
+                </CustomButton>
+              </Link>
             </div>
 
-            <div className="w-1/4 h-full relative">
-              <img
-                src={CharacterImage}
-                alt="character"
-                className="absolute bottom-0"
-              />
+            {/* Card  */}
+            <div className="w-72 flex justify-end max-sm:justify-center">
+              <FeatureCard />
             </div>
-
-            <FeatureCard />
           </div>
         </div>
 
         {/* Top selling Marketplace */}
         <div className="w-full bg-[#1b1d2c] rounded-3xl text-[#8c97ad] p-6">
+          {/* Heading  */}
           <div className="flex justify-between">
-            <h1 className="uppercase text-white font-semibold tracking-wide">
+            <h1 className="uppercase text-white font-semibold tracking-wide max-md:text-sm">
               Top selling Gamer Marketplaces
             </h1>
-            <button className="uppercase text-[#1da6ee] text-sm">
+            <button className="uppercase text-[#1da6ee] text-sm  max-sm:text-xs">
               View All
             </button>
           </div>
-          {/* Todo game card */}
-          <div className="mt-4 flex items-center justify-between">
+
+          {/* dropdowns  */}
+          <div className="mt-4 flex items-center justify-between flex-wrap max-md:justify-center gap-2">
             <div>
               <CustomDropdown
                 width={250}
@@ -213,7 +192,7 @@ function HomePage() {
               />
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 text-sm">
                 Quantity:
                 <CustomDropdown
                   width={100}
@@ -232,7 +211,7 @@ function HomePage() {
                   }}
                 />
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 text-sm">
                 Sort by:
                 <CustomDropdown
                   width={100}
@@ -252,7 +231,9 @@ function HomePage() {
                 />
               </div>
             </div>
-          </div>{" "}
+          </div>
+
+          {/* Table  */}
           <div className="mt-4">
             <Table />
           </div>
@@ -260,7 +241,7 @@ function HomePage() {
       </div>
 
       {/* RIGHT SIDEBAR  */}
-      <div className="bg-[#1b1d2c] w-[20%] rounded-3xl p-2 flex flex-col gap-4 h-fit">
+      <div className="bg-[#1b1d2c] rounded-3xl p-2 flex flex-col gap-4 h-fit">
         {/* Profile Panel */}
         <ProfilePanel />
 
@@ -269,7 +250,9 @@ function HomePage() {
           <div className="text-sm flex items-center gap-2  mb-1 text-white">
             Latest Guides
           </div>
-          <div>{renderedGuides}</div>
+          <div className={`${loadingLatestGuides ? "h-[40vh]" : ""}`}>
+            {renderedGuides}
+          </div>
         </div>
       </div>
     </div>

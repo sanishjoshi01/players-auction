@@ -106,7 +106,6 @@ function AppBars({ open, toggleDrawer }) {
           onClose={handleClose}
           TransitionComponent={Fade}
         >
-          {/* <MenuItem onClick={handleClose}>{user.email}</MenuItem> */}
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </Toolbar>
