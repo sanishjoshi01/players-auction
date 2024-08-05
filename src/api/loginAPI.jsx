@@ -4,10 +4,6 @@ const requestLogin = (email, password) => {
       email: "admin@gmail.com",
       password: "admin#123",
     },
-    {
-      email: "admin123@gmail.com",
-      password: "admin#12",
-    },
   ];
 
   return new Promise((resolve, reject) => {

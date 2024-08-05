@@ -44,7 +44,7 @@ const users = [
         email: "admin@gmail.com",
         password: "admin#123",
     },
-    //add your own credentials here
+    //add your own credentials here like below
     {
         email: "your-email-here",       //proper email format
         password: "your-password-here", //minimum 8 characters
@@ -52,11 +52,11 @@ const users = [
 ];
 ```
 
-`Make sure you enter your credentials in correct email format and more than 8 character password`
+`Make sure you enter your credentials in correct email format and password is more than 8 characters`
 
 ### `7. Logout`
 
-Logout by clicking the account icon which shows the logout button and email of the current user
+Logout by clicking the account icon with a profile picture that is located at right sidebar which shows the logout button.
 
 ### `8. Validations`
 
